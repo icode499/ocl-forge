@@ -87,6 +87,8 @@ components:
   schemas:
     SearchResponse:
       type: object
+      required:
+        - results
       properties:
         results:
           type: array
@@ -133,6 +135,9 @@ components:
 
     ErrorResponse:
       type: object
+      required:
+        - error
+        - message
       properties:
         error:
           type: string

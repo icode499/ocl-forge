@@ -25,8 +25,10 @@
 
 ## 每个样例必须包含
 
-完整四阶段输出，格式与 `prompt/fragments/07-output-format.md` 一致。
-固定区样例的阶段 4 可精简为一行结论，不展开完整表格（节省 token）。
+整体遵循 `prompt/fragments/07-output-format.md` 的四阶段结构（`<stage1>` 到 `<stage4>`）。
+固定区样例允许使用 compact 变体，例外仅限：
+- stage4 可使用 `## 审查结论` + 一行结论，不展开完整审查表格（节省 token）
+- 其余 stage1/stage2/stage3 的结构标签与顺序保持不变
 
 ## 操作步骤
 

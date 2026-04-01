@@ -9,7 +9,8 @@
 3. 在 user message 中按输入模板格式提供业务描述
 4. 获得四阶段输出
 
-适用场景：没有 RAG 服务，或临时使用。
+适用场景：没有 RAG 服务，或临时使用的兜底模式。
+当前仓库状态仍为 `golden-v0 (pending selection)`，且固定样例区待填充；无 RAG 模式可用但置信度较低，建议优先配合 RAG 或尽快完成 golden 选取。
 
 ### 方式 2：配合 RAG 服务
 
@@ -59,7 +60,7 @@ curl -X POST http://<rag-service>/api/v1/search \
 
 ## 输出说明
 
-大模型会输出四个 XML 标签包裹的阶段：
+大模型会输出四个阶段标签（结构化分段，不承诺通用 XML 解析语义）：
 
 | 标签 | 内容 | 审查优先级 |
 |------|------|-----------|
@@ -67,6 +68,8 @@ curl -X POST http://<rag-service>/api/v1/search \
 | `<stage2>` | OCL inv 约束代码 | 确认 stage1 无误后看 |
 | `<stage3>` | C++ 测试代码 | 确认 stage2 无误后看 |
 | `<stage4>` | 自我审查报告（置信度 + 风险点） | **然后看这里** |
+
+建议将这些标签按“阶段分隔符”处理，不要依赖严格 XML 解析器做脆弱绑定。
 
 ## 审查建议
 
@@ -92,10 +95,11 @@ curl -X POST http://<rag-service>/api/v1/search \
 
 ## 版本追踪
 
-记录每次生成使用的版本组合，用于评测结果归因：
+记录每次生成使用的版本组合，用于评测结果归因。
+下面示例为格式示例（illustrative），不是当前仓库固定值：
 
 ```text
 prompt-v1.0 + golden-v1 + index-v3 + harness-v1
 ```
 
-详见根目录 `VERSION` 文件。
+当前仓库中的实际版本请以 `ocl-generation/VERSION` 为准（当前为 `prompt-v1.0 + golden-v0 + index-v0 + harness-v0`）。
