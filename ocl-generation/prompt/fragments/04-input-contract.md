@@ -46,7 +46,7 @@
 ```
 
 3. **阶段 3** 对受影响规则输出：
-```cpp
+```
 // R3: TEST_SKIPPED_PENDING_CLARIFICATION
 // 缺少 Order-Customer 关联多重性，无法生成测试
 ```
