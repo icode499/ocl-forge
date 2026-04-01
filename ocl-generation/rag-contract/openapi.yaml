@@ -1,0 +1,144 @@
+openapi: 3.0.3
+info:
+  title: OCL Example RAG Service
+  description: |
+    样例检索服务，输入业务描述文本和可选的结构摘要，返回最相似的 OCL inv 样例。
+    独立仓库部署，本文件仅定义接口契约。
+  version: 1.0.0
+
+paths:
+  /api/v1/search:
+    post:
+      summary: 检索相似样例
+      description: 基于业务描述文本的语义相似度，返回最相关的 OCL inv 样例
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query
+              properties:
+                query:
+                  type: string
+                  description: 业务描述文本
+                  example: "订单系统中，订单总金额必须等于所有订单项金额之和"
+                context_summary:
+                  type: string
+                  description: |
+                    可选。UML 结构摘要，传入时用于提升检索相关性
+                    （参与 rerank 阶段的结构相似度计算）。
+                    不传时仅基于 query 做语义检索。
+                  example: "Order(totalAmount: Real) --items[1..*]--> OrderItem(quantity: Integer, unitPrice: Real)"
+                top_k:
+                  type: integer
+                  default: 2
+                  minimum: 1
+                  maximum: 10
+                  description: 返回最相似的 K 个样例（默认 2，避免 token 失控）
+                min_score:
+                  type: number
+                  format: float
+                  default: 0.5
+                  minimum: 0.0
+                  maximum: 1.0
+                  description: 最低相似度阈值
+      responses:
+        '200':
+          description: 检索成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 服务内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/health:
+    get:
+      summary: 健康检查
+      responses:
+        '200':
+          description: 服务正常
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
+                  sample_count:
+                    type: integer
+                    description: 已索引的样例数量
+                    example: 100
+
+components:
+  schemas:
+    SearchResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            required:
+              - id
+              - score
+              - description
+              - ocl
+              - test_code
+            properties:
+              id:
+                type: string
+                description: 样例唯一标识
+                example: "sample_042"
+              score:
+                type: number
+                format: float
+                description: 相似度分数 (0-1)
+                example: 0.87
+              description:
+                type: string
+                description: 原始业务描述文本
+              context_summary:
+                type: string
+                description: UML 结构摘要（可选返回，用于改善样例拼装质量）
+                example: "Order(totalAmount: Real) --items[1..*]--> OrderItem(quantity: Integer, unitPrice: Real)"
+              pattern_tags:
+                type: array
+                items:
+                  type: string
+                description: 模式标签（可选返回，用于改善样例拼装质量）
+                example: ["collection", "sum", "navigation"]
+              ocl:
+                type: string
+                description: OCL 约束代码
+              test_code:
+                type: string
+                description: C++ 测试代码
+              stage1_ir:
+                type: string
+                description: 预生成的阶段 1 结构化理解（可选）
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: 错误类型
+          example: "invalid_request"
+        message:
+          type: string
+          description: 错误描述
+          example: "query field is required"
