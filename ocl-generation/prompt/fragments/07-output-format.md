@@ -57,5 +57,8 @@ TEST([Class]Test, [constraintName]_boundary) {
 
 ## 总体评估
 [一段话]
+
+## 自我审查局限性
+[必须明确声明：同一模型自检存在系统性盲区，不能替代人工审查或编译验证]
 </stage4>
 ```
