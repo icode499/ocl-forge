@@ -9,7 +9,7 @@
 - 测试框架：Google Test（`TEST` / `ASSERT_TRUE` / `ASSERT_FALSE`）
 - 约束求值入口：`evaluate(obj, "<constraint_name>") -> bool`
 - 对象构造：`<ClassName> obj;` + `obj.set<Attr>(value);`
-- 关联建立：`obj.add<Assoc>(relatedObj);`
+- 关联建立：单值关联（`0..1`/`1`）使用 `obj.set<Assoc>(relatedObj);`；集合关联（`*`/`1..*`）使用 `obj.add<Assoc>(relatedObj);`
 - 头文件：`#include "<class_name>.h"` + `#include "ocl_evaluator.h"`
 
 ### 测试模板
@@ -24,7 +24,11 @@
 TEST(<ContextClass>Test, <ConstraintName>_positive) {
     <ContextClass> obj;
     obj.set<Attr>(/* 满足约束的典型值，不要用边界值 */);
-    // 如有关联对象：
+    // 如有关联对象（单值关联）：
+    // <RelatedClass> related;
+    // related.set<Attr>(/* 值 */);
+    // obj.set<Assoc>(related);
+    // 如有关联对象（集合关联）：
     // <RelatedClass> related;
     // related.set<Attr>(/* 值 */);
     // obj.add<Assoc>(related);
@@ -57,12 +61,12 @@ TEST(<ContextClass>Test, <ConstraintName>_boundary) {
 | `x < 100` | `100` | FALSE | `101` |
 | `x <= 100` | `100` | TRUE | `101` |
 | `col->size() >= 1` | 1 个元素 | TRUE | 0 个元素 |
-| `x = y` | `x == y` | TRUE | `x != y` |
 
 ### 测试数据设计原则
 
 1. **正例**：选择明确满足约束的典型值，不要用边界值
 2. **反例**：选择明确违反约束的典型非法值，让违反原因一目了然
 3. **边界例**：选择约束条件的恰好临界值
-4. **注释**：每个测试值旁标注计算过程或为什么满足/违反约束
-5. **独立性**：每个 TEST 独立构造对象，不依赖其他测试的状态
+4. **可选/空语义边界**：当规则依赖可选导航（`0..1`）或集合空/非空语义时，补充对应的 `null`/空集合测试
+5. **注释**：每个测试值旁标注计算过程或为什么满足/违反约束
+6. **独立性**：每个 TEST 独立构造对象，不依赖其他测试的状态

@@ -22,6 +22,8 @@ paths:
               properties:
                 query:
                   type: string
+                  minLength: 1
+                  pattern: '.*\S.*'
                   description: 业务描述文本
                   example: "订单系统中，订单总金额必须等于所有订单项金额之和"
                 context_summary:
