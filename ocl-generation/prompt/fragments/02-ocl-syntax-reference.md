@@ -8,15 +8,15 @@
 - `context <Class>::<op>(<params>) pre <name>: <expr>` — 前置条件（v1 不支持）
 - `context <Class>::<op>(<params>) post <name>: <expr>` — 后置条件（v1 不支持）
 - `context <Class>::<op>(<params>): <Type> body <name>: <expr>` — 操作体定义（v1 不支持）
-- `context <Class> def <name>: <Type> = <expr>` — 辅助定义（v1 不支持）
-- `context <Class> init <name>: <expr>` — 初始值（v1 不支持）
+- `def` — 辅助定义（v1 不支持；本速查不提供语法模板，避免误导）
+- `init` — 初始值（v1 不支持；本速查不提供语法模板，避免误导）
 
 ### 基本表达式
 
 - `self` — 当前上下文对象
 - `self.<attr>` — 访问属性
 - `self.<assoc>` — 导航关联（返回集合或单个对象，取决于多重性）
-- `self.<op>(<args>)` — 调用操作
+- `self.<op>(<args>)` — 调用操作（v1 输入契约默认不包含操作级约束，除非用户输入明确给出且规则明确允许）
 
 ### 类型系统
 

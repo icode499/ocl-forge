@@ -24,9 +24,9 @@
    - 错误：`s.substring(0, 3)`
    - 正确：`s.substring(1, 3)`
 
-6. **inv 约束必须命名**
-   - 错误：`context Order inv: self.total > 0`
-   - 正确：`context Order inv positiveTotal: self.total > 0`
+6. **inv 命名是项目可追溯性约定（非 OCL 语法硬性要求）**
+   - 建议：`context Order inv positiveTotal: self.total > 0`
+   - 目的：便于将约束映射到业务规则编号（R1, R2...）
 
 ### 业务逻辑层面
 
@@ -41,7 +41,7 @@
 
 9. **implies 的短路语义**
    - `a implies b`：当 a 为 false 时整个表达式为 true
-   - 常用于条件约束：`self.status = #active implies self.balance >= 0`
+   - 常用于条件约束：`self.status = Status::active implies self.balance >= 0`
    - 注意：这意味着 status 不是 active 的对象总是满足该约束
 
 10. **集合操作链的空集处理**
