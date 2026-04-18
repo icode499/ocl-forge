@@ -68,14 +68,14 @@ For every phase:
 
 ## Workflow sequence
 
-### 1) Initialize durable state
+### STEP 1: Initialize durable state
 
 - Run `python3 scripts/init_task_state.py --requirements-file <path>|--requirements-text <text> --repo <path> [--test-command <cmd>] [--commit-policy <text>] [--output task_state.xml]`.
 - If `task_state.xml` already exists, refresh inputs but preserve evidence, blockers, and artifact statuses when still valid.
 - If `test command` or `commit policy` is still unknown, leave it blank and record a grounded assumption in `task_state.xml`.
 - Confirm current phase, rollback target, hard rules, and required evidence from the state file before acting.
 
-### 2) Read requirements
+### STEP 2: Read requirements
 
 Consult `references/requirements.md`.
 
@@ -94,7 +94,7 @@ Exit gate focus:
 - scope, constraints, edge cases, and assumptions recorded
 - no coding has started
 
-### 3) Write test cases
+### STEP 3: Write test cases
 
 Consult `references/testing.md`.
 
@@ -111,7 +111,7 @@ Exit gate focus:
 - happy path, edge cases, negative cases, and regression risks are covered or explicitly waived
 - development is still blocked until this phase is verified
 
-### 4) Develop code
+### STEP 4: Develop code
 
 Consult `references/coding.md`.
 
@@ -128,7 +128,7 @@ Exit gate focus:
 - changed files are logged
 - unresolved requirement gaps are either fixed or cause rollback
 
-### 5) Run tests and debug
+### STEP 5: Run tests and debug
 
 Consult `references/debugging.md`.
 
@@ -145,7 +145,7 @@ Exit gate focus:
 - required test command passed and evidence is recorded, or
 - blocker is recorded with reproducible evidence and rollback target
 
-### 6) Prepare commit and commit locally
+### STEP 6: Prepare commit and commit locally
 
 Consult `references/git.md`.
 
