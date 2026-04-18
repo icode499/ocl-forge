@@ -55,16 +55,16 @@ Mark artifact status in `task_state.xml` as one of `missing`, `draft`, `ready`, 
 
 ## Standard execution loop
 
-For every phase:
+Repeat this loop for every phase, in order:
 
-1. Read `task_state.xml`.
-2. Run `python3 scripts/phase_gate.py --state task_state.xml --phase <phase> --mode entry`.
-3. Read the phase reference file.
-4. Execute only actions allowed in that phase.
-5. Write or update the required artifacts.
-6. Record evidence, assumptions, failures, or rollback reasons in `task_state.xml`.
-7. Run `python3 scripts/phase_gate.py --state task_state.xml --phase <phase> --mode exit`.
-8. Advance only if the exit gate passes.
+1. **Read state**: Read `task_state.xml`.
+2. **Check entry gate**: Run `python3 scripts/phase_gate.py --state task_state.xml --phase <phase> --mode entry`.
+3. **Read phase guide**: Read the phase reference file.
+4. **Execute phase work**: Execute only actions allowed in that phase.
+5. **Update artifacts**: Write or update the required artifacts.
+6. **Record evidence**: Record evidence, assumptions, failures, or rollback reasons in `task_state.xml`.
+7. **Check exit gate**: Run `python3 scripts/phase_gate.py --state task_state.xml --phase <phase> --mode exit`.
+8. **Advance**: Advance only if the exit gate passes.
 
 ## Workflow sequence
 
