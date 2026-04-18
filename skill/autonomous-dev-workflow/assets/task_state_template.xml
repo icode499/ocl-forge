@@ -1,0 +1,58 @@
+<task_state>
+  <goal>implement repository changes from requirements text and produce verified artifacts, tests, passing test results, and a local git commit</goal>
+  <inputs>
+    <requirements_source></requirements_source>
+    <repo_path></repo_path>
+    <test_command></test_command>
+    <commit_policy></commit_policy>
+  </inputs>
+  <current_phase>read_requirements</current_phase>
+  <phase_status>in_progress</phase_status>
+  <rollback_target></rollback_target>
+  <rollback_reason></rollback_reason>
+  <phases>
+    <phase name="read_requirements" status="pending"/>
+    <phase name="write_test_cases" status="pending"/>
+    <phase name="code_development" status="pending"/>
+    <phase name="run_tests_and_debug" status="pending"/>
+    <phase name="git_commit" status="pending"/>
+  </phases>
+  <hard_rules>
+    <rule id="R1">do not start coding before verified test cases exist</rule>
+    <rule id="R2">do not create a final local commit before verified passing test evidence exists unless the user explicitly requested a checkpoint commit</rule>
+    <rule id="R3">update this file after every material phase transition, rollback, blocker, or evidence change</rule>
+    <rule id="R4">treat this file as the single source of truth for workflow status</rule>
+  </hard_rules>
+  <artifacts>
+    <artifact name="requirements_summary.md" status="missing"/>
+    <artifact name="acceptance_criteria.md" status="missing"/>
+    <artifact name="traceability_matrix.md" status="missing"/>
+    <artifact name="test_cases.md" status="missing"/>
+    <artifact name="change_log.md" status="missing"/>
+    <artifact name="test_results.md" status="missing"/>
+    <artifact name="debug_log.md" status="missing"/>
+    <artifact name="commit_message.txt" status="missing"/>
+  </artifacts>
+  <required_artifacts>
+    <phase name="read_requirements">requirements_summary.md,acceptance_criteria.md,traceability_matrix.md</phase>
+    <phase name="write_test_cases">requirements_summary.md,acceptance_criteria.md,traceability_matrix.md,test_cases.md</phase>
+    <phase name="code_development">requirements_summary.md,acceptance_criteria.md,traceability_matrix.md,test_cases.md,change_log.md</phase>
+    <phase name="run_tests_and_debug">requirements_summary.md,acceptance_criteria.md,traceability_matrix.md,test_cases.md,change_log.md,test_results.md,debug_log.md</phase>
+    <phase name="git_commit">requirements_summary.md,acceptance_criteria.md,traceability_matrix.md,test_cases.md,change_log.md,test_results.md,debug_log.md,commit_message.txt</phase>
+  </required_artifacts>
+  <completion_evidence>
+    <item key="requirements_verified"></item>
+    <item key="tests_planned"></item>
+    <item key="implementation_complete"></item>
+    <item key="tests_status"></item>
+    <item key="checkpoint_commit_allowed">false</item>
+  </completion_evidence>
+  <assumptions>
+    <!-- Add <assumption key="...">...</assumption> items when required inputs must be derived later. -->
+  </assumptions>
+  <failed_checks>
+  </failed_checks>
+  <blockers>
+  </blockers>
+  <commit_hash></commit_hash>
+</task_state>

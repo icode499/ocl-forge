@@ -1,0 +1,3 @@
+interface:
+  display_name: "Autonomous Dev Workflow"
+  short_description: "Run strict end-to-end coding workflows with durable phase state."
